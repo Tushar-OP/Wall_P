@@ -33,6 +33,9 @@ dependencies:
   http: ^0.12.1
   flutter_svg: ^0.17.4
   image_downloader: ^0.19.2
+  like_button: ^0.2.0
+  overlay_support: ^1.0.3
+  rflutter_alert: ^1.0.3
 
 dev_dependencies:
   flutter_test:

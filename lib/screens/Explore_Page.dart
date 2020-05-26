@@ -39,7 +39,7 @@ class _ExplorePageState extends State<ExplorePage> {
       print(e);
     }
   }
-  
+
   @override
   void initState() {
     super.initState();
@@ -62,30 +62,39 @@ class _ExplorePageState extends State<ExplorePage> {
           crossAxisCount: 2,
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,
+          childAspectRatio: 0.65,
         ),
         itemCount: items.length+1,
         shrinkWrap: true,
         physics: ScrollPhysics(),
         itemBuilder: (context, index){
           if (index == items.length){
-            return Center(
-              child: SizedBox(
-                width: 30,
-                height: 30,
-                child: CircularProgressIndicator(),
-              ),
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  width: 30,
+                  height: 30,
+                  child: CircularProgressIndicator(),
+                ),
+                SizedBox(height: 10,),
+                Text(
+                  'More Coming Up',
+                ),
+              ],
             );
           } else {
             return GestureDetector(
               onTap: (){
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ImagePage(imgData: items[index],),)
+                    context,
+                    MaterialPageRoute(builder: (context) => ImagePage(imgData: items[index],),)
                 );
               },
               child: ClipRRect(borderRadius: BorderRadius.all(Radius.circular(20)),
-                  child: Image.network(
-                    items[index][2], fit: BoxFit.cover,),
+                child: Image.network(
+                  items[index][2], fit: BoxFit.cover,),
               ),
             );
           }

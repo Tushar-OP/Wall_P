@@ -8,7 +8,7 @@ const apiUrl = 'https://api.unsplash.com/photos?client_id=$apiKey';
 class Images{
 
   Future getLatestImages(int pageNumber) async {
-    String url = '$apiUrl&order_by=latest&orientation=portrait&&per_page=30&page=$pageNumber';
+    String url = '$apiUrl&order_by=latest&orientation=portrait&per_page=30&page=$pageNumber';
     http.Response response = await http.get(url);
 
     List responseData = [];
@@ -31,7 +31,6 @@ class Images{
       print(response.statusCode);
     }
 
-//    print(responseData);
     return responseData;
   }
 

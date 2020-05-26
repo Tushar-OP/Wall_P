@@ -15,7 +15,7 @@ class _SearchPageState extends State<SearchPage> {
   //Used to store the result from Networking.dart
   List items = [];
 
-  //Search term
+  //Searched term
   String toSearch;
 
   //ScrollController
@@ -58,78 +58,100 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-            child: TextField(
-              cursorColor: Color.fromRGBO(108, 99, 255, 1),
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                suffixIcon: Icon(Icons.search, color: Color.fromRGBO(108, 99, 255, 1),),
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                  borderSide: BorderSide(width: 2),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                  borderSide: BorderSide(color: Color.fromRGBO(108, 99, 255, 1), width: 2),
+    return GestureDetector(
+      onTap: (){
+        // Used to hide the keyboard when pressed anywhere on the screen outside TextField
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+              child: Theme(
+                data:  Theme.of(context).copyWith(primaryColor: Color.fromRGBO(108, 99, 255, 1)),
+                child: TextField(
+                  cursorColor: Color.fromRGBO(108, 99, 255, 1),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                    suffixIcon: Icon(Icons.search),
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                      borderSide: BorderSide(width: 2),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                      borderSide: BorderSide(color: Color.fromRGBO(108, 99, 255, 1), width: 2),
+                    ),
+                  ),
+                  onSubmitted: (value){
+                    setState(() {
+                      toSearch = value;
+                      getSearchImages(pageNumber, toSearch);
+                    });
+                  },
                 ),
               ),
-              onSubmitted: (value){
-                print(value);
-                setState(() {
-                  toSearch = value;
-                  getSearchImages(pageNumber, toSearch);
-                });
-              },
             ),
-          ),
-          (toSearch == null) ?
-          Expanded(
-            child: SvgPicture.asset('images/empty.svg'),
-          ) :
-          Expanded(
-            child: GridView.builder(
-              controller: _controller,
-              padding: EdgeInsets.all(10),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
+            // If nothing is searched, then display Svg else the results will be shown
+            (toSearch == null) ?
+            Expanded(
+              child: SvgPicture.asset('images/empty.svg'),
+            ) :
+            Expanded(
+              child: GridView.builder(
+                controller: _controller,
+                padding: EdgeInsets.all(10),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: 0.65,
+                ),
+                itemCount: items.length+1,
+                shrinkWrap: true,
+                physics: ScrollPhysics(),
+                itemBuilder: (context, index){
+                  if (index == items.length){
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          width: 30,
+                          height: 30,
+                          child: CircularProgressIndicator(),
+                        ),
+                        SizedBox(height: 10,),
+                        Text(
+                          'More Coming Up',
+                        ),
+                      ],
+                    );
+                  } else {
+                    return GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ImagePage(imgData: items[index],),)
+                        );
+                      },
+                      child: ClipRRect(borderRadius: BorderRadius.all(Radius.circular(20)),
+                        child: Image.network(
+                          items[index][2], fit: BoxFit.cover,),
+                      ),
+                    );
+                  }
+                },
               ),
-              itemCount: items.length+1,
-              shrinkWrap: true,
-              physics: ScrollPhysics(),
-              itemBuilder: (context, index){
-                if (index == items.length){
-                  return Center(
-                    child: SizedBox(
-                      width: 30,
-                      height: 30,
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                } else {
-                  return GestureDetector(
-                    onTap: (){
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ImagePage(imgData: items[index],),)
-                      );
-                    },
-                    child: ClipRRect(borderRadius: BorderRadius.all(Radius.circular(20)),
-                      child: Image.network(
-                        items[index][2], fit: BoxFit.cover,),
-                    ),
-                  );
-                }
-              },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -5,6 +5,8 @@ import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:wallp/screens/Explore_Page.dart';
 import 'package:wallp/screens/Trending_Page.dart';
 import 'package:wallp/screens/Search_Page.dart';
+import 'package:wallp/screens/Favourites_Page.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,9 +16,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
+    return  OverlaySupport(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: HomePage(),
+      ),
     );
   }
 }
@@ -33,6 +37,7 @@ class _HomePageState extends State<HomePage> {
     ExplorePage(),
     TrendingPage(),
     SearchPage(),
+    FavPage(),
   ];
 
   @override
@@ -53,6 +58,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       resizeToAvoidBottomPadding: false,
+
       body: _children[_selectedIndex],
 
       bottomNavigationBar: FFNavigationBar(
@@ -80,6 +86,10 @@ class _HomePageState extends State<HomePage> {
           FFNavigationBarItem(
             iconData: LineAwesomeIcons.search,
             label: 'Search',
+          ),
+          FFNavigationBarItem(
+            iconData: Icons.favorite_border,
+            label: 'Favourite',
           ),
         ],
       ),
