@@ -7,16 +7,21 @@ import 'package:flutter/services.dart';
 import 'package:wallp/Fav_Images.dart';
 import 'package:like_button/like_button.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:share/share.dart';
 
 class ImagePage extends StatelessWidget {
   final List imgData;
+  bool isExist;
 
   ImagePage({@required this.imgData});
 
   Future<bool> downloadImage(bool isLiked) async {
     try {
       // Saved with this method.
-      var imageId = await ImageDownloader.downloadImage(imgData[3], destination: AndroidDestinationType.directoryPictures,);
+      var imageId = await ImageDownloader.downloadImage(
+        imgData[3],
+        destination: AndroidDestinationType.directoryPictures,
+      );
       if (imageId == null) {
         print(null);
         return !isLiked;
@@ -38,8 +43,18 @@ class ImagePage extends StatelessWidget {
   }
 
   Future<bool> addToFav(bool isLiked) async {
-    FavImages().addFavImages(imgData);
-    toast('Added to Favs!');
+    isExist = FavImages().addFavImages(imgData);
+    //Check the returned result so that appropriate toast notification can be given.
+    if (isExist == true){
+      toast('Added to Favs!');
+    }else{
+      toast('Already in Favs!');
+    }
+    return !isLiked;
+  }
+
+  Future<bool> toShare(bool isLiked) async {
+    Share.share('Check out this wallpaper:\n${imgData[4]}\nFouud it on Wall:P');
     return !isLiked;
   }
 
@@ -55,9 +70,33 @@ class ImagePage extends StatelessWidget {
             ),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 50.0, right: 30.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: 20.0,
+                      child: LikeButton(
+                        likeBuilder: (bool isLiked) {
+                          return Icon(
+                            Icons.share,
+                            color: isLiked
+                                ? Color.fromRGBO(108, 99, 255, 1)
+                                : Colors.grey,
+                            size: 30,
+                          );
+                        },
+                        onTap: toShare,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(

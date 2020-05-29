@@ -24,6 +24,7 @@ class Images{
           listData.add(i['urls']['regular']);
           listData.add(i['urls']['thumb']);
           listData.add(i['links']['download']);
+          listData.add(i['links']['html']);
           responseData.add(listData);
         }
       }
@@ -51,6 +52,7 @@ class Images{
           listData.add(i['urls']['regular']);
           listData.add(i['urls']['thumb']);
           listData.add(i['links']['download']);
+          listData.add(i['links']['html']);
           responseData.add(listData);
         }
       }
@@ -77,8 +79,8 @@ class Images{
           listData.add(i['id']);
           listData.add(i['urls']['regular']);
           listData.add(i['urls']['thumb']);
-          listData.add(i['urls']['thumb']);
           listData.add(i['links']['download']);
+          listData.add(i['links']['html']);
           responseData.add(listData);
         }
       }

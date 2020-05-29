@@ -99,7 +99,7 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
             // If nothing is searched, then display Svg else the results will be shown
-            (toSearch == null) ?
+            (toSearch == null || toSearch.isEmpty) ?
             Expanded(
               child: SvgPicture.asset('images/empty.svg'),
             ) :
