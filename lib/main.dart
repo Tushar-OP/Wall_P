@@ -46,15 +46,31 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        centerTitle: true,
-        title: Text(
-          'Wall:P',
-          style: TextStyle(
-              fontSize: 24,
-              color: Colors.black,
-              fontStyle: FontStyle.italic,
-            fontWeight: FontWeight.bold,
-          ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              'Wall:P',
+              style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.black,
+                  fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            GestureDetector(
+              onTap: (){
+                showAboutDialog(
+                  context: context,
+                  applicationName: 'Wall:P',
+                  applicationVersion: '0.1',
+                  applicationIcon: Image.asset('images/app_icon.png', scale: 10.0,),
+                  applicationLegalese: 'All images are provided by Unsplash.',
+                );
+              },
+              child: Icon(Icons.info_outline, color: Colors.black,),
+            ),
+          ],
         ),
       ),
       resizeToAvoidBottomPadding: false,
