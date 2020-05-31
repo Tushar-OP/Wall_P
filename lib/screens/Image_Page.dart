@@ -62,89 +62,92 @@ class ImagePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(imgData[1]),
-              fit: BoxFit.cover,
+        child: Hero(
+          tag: imgData[0],
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(imgData[1]),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 50.0, right: 30.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 20.0,
-                      child: LikeButton(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 50.0, right: 30.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 20.0,
+                        child: LikeButton(
+                          likeBuilder: (bool isLiked) {
+                            return Icon(
+                              Icons.share,
+                              color: isLiked
+                                  ? Color.fromRGBO(108, 99, 255, 1)
+                                  : Colors.grey,
+                              size: 30,
+                            );
+                          },
+                          onTap: toShare,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      LikeButton(
                         likeBuilder: (bool isLiked) {
                           return Icon(
-                            Icons.share,
+                            Icons.cloud_download,
                             color: isLiked
                                 ? Color.fromRGBO(108, 99, 255, 1)
                                 : Colors.grey,
                             size: 30,
                           );
                         },
-                        onTap: toShare,
+                        onTap: downloadImage,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20))),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    LikeButton(
-                      likeBuilder: (bool isLiked) {
-                        return Icon(
-                          Icons.cloud_download,
-                          color: isLiked
-                              ? Color.fromRGBO(108, 99, 255, 1)
-                              : Colors.grey,
-                          size: 30,
-                        );
-                      },
-                      onTap: downloadImage,
-                    ),
-                    LikeButton(
-                      likeBuilder: (bool isLiked) {
-                        return Icon(
-                          Icons.favorite,
-                          color: isLiked
-                              ? Color.fromRGBO(108, 99, 255, 1)
-                              : Colors.grey,
-                          size: 30,
-                        );
-                      },
-                      onTap: addToFav,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        LineAwesomeIcons.arrow_left,
-                        size: 30,
-                        color: Colors.grey,
+                      LikeButton(
+                        likeBuilder: (bool isLiked) {
+                          return Icon(
+                            Icons.favorite,
+                            color: isLiked
+                                ? Color.fromRGBO(108, 99, 255, 1)
+                                : Colors.grey,
+                            size: 30,
+                          );
+                        },
+                        onTap: addToFav,
                       ),
-                    ),
-                  ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          LineAwesomeIcons.arrow_left,
+                          size: 30,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -85,20 +85,23 @@ class _FavPageState extends State<FavPage> {
                 shrinkWrap: true,
                 physics: ScrollPhysics(),
                 itemBuilder: (context, index){
-                  return GestureDetector(
-                    onTap: (){
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ImagePage(imgData: items[index],),)
-                      );
-                    },
-                    onLongPress: (){
-                      _onLongPress(context, index);
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      child: Image.network(
-                        items[index][2], fit: BoxFit.cover,),
+                  return Hero(
+                    tag: items[index][0],
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ImagePage(imgData: items[index],),)
+                        );
+                      },
+                      onLongPress: (){
+                        _onLongPress(context, index);
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: Image.network(
+                          items[index][2], fit: BoxFit.cover,),
+                      ),
                     ),
                   );
                 }

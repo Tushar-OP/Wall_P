@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                   applicationName: 'Wall:P',
                   applicationVersion: '0.1',
                   applicationIcon: Image.asset('images/app_icon.png', scale: 10.0,),
-                  applicationLegalese: 'All images are provided by Unsplash.',
+                  applicationLegalese: 'All images are provided by unsplash.com',
                 );
               },
               child: Icon(Icons.info_outline, color: Colors.black,),
