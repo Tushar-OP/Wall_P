@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/Tushar-OP/Go_Corona_Go">
-    <img src="images/App Images/app_banner.png" alt="Logo">
+    <img src="images/App Images/banner.png" alt="Logo">
   </a>
 <h2 align="center">Wall :P</h2> 
 </p>
